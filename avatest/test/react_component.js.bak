@@ -1,0 +1,17 @@
+import './helpers/setup_dom_env';
+import test from 'ava';
+import React from 'react';
+import {mount} from 'enzyme';
+
+import Todo from '../src/todo';
+
+test('actual testing for react component', t => {
+    const wrapper = mount(<Todo names={['Barrior', 'Tom']} />);  // 让组件运行，返回一个对象
+
+    const list = wrapper.find('ul');                             // 从对象里找到 render 里的 DOM 元素 ul
+    t.is(list.find('li').length, 2);                             // 断言备忘录有 2 条记录
+
+    wrapper.find('textarea').node.value = 'Lily';                // 文本框写入值
+    wrapper.find('textarea + button').simulate('click');         // 触发按钮的点击事件
+    t.is(list.find('li').length, 3);                             // 断言备忘录有 3 条记录
+});
